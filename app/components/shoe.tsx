@@ -3,7 +3,11 @@
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-useGLTF.preload('/models/shoe-draco.glb');
+import { PRODUCT_DATA } from '@/data/products';
+
+const product = PRODUCT_DATA[0];
+
+useGLTF.preload(product.modelPath);
 
 export const Shoe = () => {
   type GLTFResult = {
@@ -15,7 +19,7 @@ export const Shoe = () => {
     };
   };
   const { nodes, materials } = useGLTF(
-    '/models/shoe-draco.glb',
+    product.modelPath,
   ) as unknown as GLTFResult;
   return (
     <group>
