@@ -4,12 +4,15 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { PRODUCT_DATA } from '@/data/products';
+import { ShoeProps } from '@/lib/definition';
 
 const product = PRODUCT_DATA[0];
 
-useGLTF.preload(product.modelPath);
-
-export const Shoe = () => {
+export const Shoe = ({
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],
+  scale = [1, 1, 1],
+}: ShoeProps) => {
   type GLTFResult = {
     nodes: {
       [key: string]: THREE.Mesh;
@@ -22,7 +25,7 @@ export const Shoe = () => {
     product.modelPath,
   ) as unknown as GLTFResult;
   return (
-    <group>
+    <group position={position} rotation={rotation} scale={scale}>
       <mesh geometry={nodes.shoe.geometry} material={materials.laces} />
       <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} />
       <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} />
@@ -34,3 +37,5 @@ export const Shoe = () => {
     </group>
   );
 };
+
+useGLTF.preload(product.modelPath);
