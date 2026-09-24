@@ -2,7 +2,7 @@ export interface ProductType {
   id: number;
   modelPath: string;
   camera: {
-    initialPosition: [number, number, number];
+    position: [number, number, number];
     fov: number;
   };
 }
