@@ -1,4 +1,5 @@
 'use client';
+import { CameraControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
 import { PRODUCT_DATA } from '@/data/products';
@@ -29,6 +30,7 @@ export default function Home() {
             <Shoe {...LEFT_SHOE_CONFIG} />
             <Shoe {...RIGHT_SHOE_CONFIG} />
           </group>
+          <CameraControls makeDefault />
         </Canvas>
       </div>
     </div>
