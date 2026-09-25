@@ -1,11 +1,11 @@
 'use client';
 import { CameraControls, ContactShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { RiShare2Line } from 'react-icons/ri';
 
 import { PRODUCT_DATA } from '@/data/products';
 
 import { Shoe } from './components/shoe';
-
 const product = PRODUCT_DATA[0];
 
 const LEFT_SHOE_CONFIG = {
@@ -24,14 +24,18 @@ export default function Home() {
   return (
     <div>
       <div className="h-[73vh] w-full bg-gray-100">
-        <div>
-          <div>
+        <div className="absolute top-0 right-0 left-0 z-10 flex justify-between px-6 py-11">
+          <div className="ml-7.5 flex flex-col">
             <span>{product.name}</span>
             <span>{product.price}</span>
           </div>
-          <div>
-            <button>⚪︎</button>
-            <button>完了</button>
+          <div className="flex items-center gap-4">
+            <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200">
+              <RiShare2Line className="h-6 w-6" />
+            </button>
+            <button className="flex items-center justify-center rounded-full border border-gray-200 px-6 py-2 font-bold">
+              完了
+            </button>
           </div>
         </div>
         <Canvas camera={product.camera}>
