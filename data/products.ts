@@ -8,5 +8,7 @@ export const PRODUCT_DATA: ProductType[] = [
       position: [-3, 2, -3],
       fov: 30,
     },
+    name: 'スニーカー',
+    price: '¥10,000',
   },
 ];

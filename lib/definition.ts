@@ -5,6 +5,8 @@ export interface ProductType {
     position: [number, number, number];
     fov: number;
   };
+  name: string;
+  price: string;
 }
 
 export interface ShoeProps {

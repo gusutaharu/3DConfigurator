@@ -24,6 +24,16 @@ export default function Home() {
   return (
     <div>
       <div className="h-[73vh] w-full bg-gray-100">
+        <div>
+          <div>
+            <span>{product.name}</span>
+            <span>{product.price}</span>
+          </div>
+          <div>
+            <button>⚪︎</button>
+            <button>完了</button>
+          </div>
+        </div>
         <Canvas camera={product.camera}>
           <ambientLight intensity={1} />
           <group>
