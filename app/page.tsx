@@ -1,5 +1,5 @@
 'use client';
-import { CameraControls } from '@react-three/drei';
+import { CameraControls, ContactShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
 import { PRODUCT_DATA } from '@/data/products';
@@ -30,6 +30,13 @@ export default function Home() {
             <Shoe {...LEFT_SHOE_CONFIG} />
             <Shoe {...RIGHT_SHOE_CONFIG} />
           </group>
+          <ContactShadows
+            position={[0, -0.7, 0]}
+            opacity={0.8}
+            scale={7}
+            blur={0.5}
+            far={0.8}
+          />
           <CameraControls makeDefault />
         </Canvas>
       </div>
