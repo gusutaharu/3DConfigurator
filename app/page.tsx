@@ -1,7 +1,9 @@
 'use client';
 import { CameraControls, ContactShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiShare2Line } from 'react-icons/ri';
+import { SlArrowDown, SlMenu } from 'react-icons/sl';
 
 import { PRODUCT_DATA } from '@/data/products';
 
@@ -53,6 +55,34 @@ export default function Home() {
           />
           <CameraControls makeDefault />
         </Canvas>
+      </div>
+      <div className="z-10 h-[27vh] w-full bg-white">
+        <div className="grid grid-cols-3 px-12 py-6">
+          <div className="justify-self-start">
+            <button className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200">
+              <SlArrowDown className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="flex items-center justify-center gap-10">
+            <button>
+              <HiArrowLeft className="h-5 w-5" />
+            </button>
+            <div className="max-w-98 min-w-64 text-center text-xl">
+              <span className="text-[#111111]">選択パーツ</span>
+              <span className="ml-2 text-[#757575]">1/10</span>
+            </div>
+            <button>
+              <HiArrowRight className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="justify-self-end">
+            <button className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold">
+              <SlMenu className="h-5 w-5" />
+              メニュー
+            </button>
+          </div>
+        </div>
+        <div></div>
       </div>
     </div>
   );
