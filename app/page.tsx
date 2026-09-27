@@ -82,7 +82,17 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div></div>
+        <div className="flex shrink-0 items-center justify-center gap-4 pt-8">
+          {product.colorPalette.map((color) => (
+            <div key={color.id} className="text-center">
+              <button
+                style={{ backgroundColor: color.hex }}
+                className="h-8 w-8 rounded-full border border-gray-300"
+              ></button>
+              <div className="mt-2 text-sm">{color.name}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

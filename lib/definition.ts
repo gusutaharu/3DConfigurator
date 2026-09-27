@@ -7,6 +7,11 @@ export interface ProductType {
   };
   name: string;
   price: string;
+  colorPalette: {
+    id: string;
+    hex: string;
+    name: string;
+  }[];
 }
 
 export interface ShoeProps {
