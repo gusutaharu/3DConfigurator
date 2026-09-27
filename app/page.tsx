@@ -58,7 +58,7 @@ export default function Home() {
         </Canvas>
       </div>
       <div className="z-10 h-[27vh] w-full bg-white">
-        <div className="relative z-100 mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
+        <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div className="grid grid-cols-3 px-12 py-6">
           <div className="justify-self-start">
             <button className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden">
