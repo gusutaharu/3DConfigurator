@@ -26,12 +26,12 @@ export default function Home() {
   return (
     <div>
       <div className="h-[73vh] w-full bg-gray-100">
-        <div className="absolute top-0 right-0 left-0 z-10 flex justify-between px-6 py-11">
-          <div className="ml-7.5 flex flex-col">
+        <div className="absolute top-0 right-0 left-0 z-10 flex px-6 py-11">
+          <div className="mr-auto ml-7.5 flex flex-col max-sm:hidden">
             <span>{product.name}</span>
             <span>{product.price}</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="ml-auto flex items-center gap-4">
             <button className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200">
               <RiShare2Line className="h-6 w-6" />
             </button>
@@ -57,9 +57,10 @@ export default function Home() {
         </Canvas>
       </div>
       <div className="z-10 h-[27vh] w-full bg-white">
+        <div className="relative z-100 mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div className="grid grid-cols-3 px-12 py-6">
           <div className="justify-self-start">
-            <button className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200">
+            <button className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden">
               <SlArrowDown className="h-4 w-4" />
             </button>
           </div>
@@ -67,7 +68,7 @@ export default function Home() {
             <button>
               <HiArrowLeft className="h-5 w-5" />
             </button>
-            <div className="max-w-98 min-w-64 text-center text-xl">
+            <div className="min-w-64 text-center text-xl max-md:min-w-44">
               <span className="text-[#111111]">選択パーツ</span>
               <span className="ml-2 text-[#757575]">1/10</span>
             </div>
@@ -76,13 +77,13 @@ export default function Home() {
             </button>
           </div>
           <div className="justify-self-end">
-            <button className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold">
+            <button className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden">
               <SlMenu className="h-5 w-5" />
               メニュー
             </button>
           </div>
         </div>
-        <div className="flex shrink-0 items-center justify-center gap-4 pt-8">
+        <div className="flex shrink-0 items-center justify-center gap-4 pt-6">
           {product.colorPalette.map((color) => (
             <div key={color.id} className="text-center">
               <button
