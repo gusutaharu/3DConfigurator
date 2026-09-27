@@ -1,5 +1,5 @@
 'use client';
-import { CameraControls, ContactShadows } from '@react-three/drei';
+import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiShare2Line } from 'react-icons/ri';
@@ -42,6 +42,7 @@ export default function Home() {
         </div>
         <Canvas camera={product.camera}>
           <ambientLight intensity={1} />
+          <Environment preset="city" />
           <group>
             <Shoe {...LEFT_SHOE_CONFIG} />
             <Shoe {...RIGHT_SHOE_CONFIG} />
