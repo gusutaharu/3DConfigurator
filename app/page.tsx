@@ -24,8 +24,8 @@ const RIGHT_SHOE_CONFIG = {
 
 export default function Home() {
   return (
-    <div>
-      <div className="h-[73vh] w-full bg-gray-100">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden">
+      <div className="relative h-[73vh] min-h-0 w-full flex-1 bg-gray-100">
         <div className="absolute top-0 right-0 left-0 z-10 flex px-6 py-11">
           <div className="mr-auto ml-7.5 flex flex-col max-sm:hidden">
             <span>{product.name}</span>
@@ -84,14 +84,14 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="flex shrink-0 items-center justify-center gap-4 pt-6">
+        <div className="flex scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6">
           {product.colorPalette.map((color) => (
             <div key={color.id} className="text-center">
               <button
                 style={{ backgroundColor: color.hex }}
                 className="h-8 w-8 rounded-full border border-gray-300"
               ></button>
-              <div className="mt-2 text-sm">{color.name}</div>
+              <div className="mt-2 text-sm whitespace-nowrap">{color.name}</div>
             </div>
           ))}
         </div>

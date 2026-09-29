@@ -18,6 +18,8 @@ export const PRODUCT_DATA: ProductType[] = [
       { id: 'green', hex: '#2a9d8f', name: 'グリーン' },
       { id: 'yellow', hex: '#e9c46a', name: 'イエロー' },
       { id: 'orange', hex: '#f4a261', name: 'オレンジ' },
+      { id: 'purple', hex: '#9d4edd', name: 'パープル' },
+      { id: 'pink', hex: '#f72585', name: 'ピンク' },
     ],
   },
 ];
