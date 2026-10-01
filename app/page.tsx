@@ -1,9 +1,10 @@
 'use client';
 import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { useState } from 'react';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiShare2Line } from 'react-icons/ri';
-import { SlArrowDown, SlMenu } from 'react-icons/sl';
+import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 
 import { PRODUCT_DATA } from '@/data/products';
 
@@ -23,9 +24,13 @@ const RIGHT_SHOE_CONFIG = {
 };
 
 export default function Home() {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden">
-      <div className="relative h-[73vh] min-h-0 w-full flex-1 bg-gray-100">
+      <div
+        className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${isExpanded ? 'h-[90vh]' : 'h-[73vh]'}`}
+      >
         <div className="absolute top-0 right-0 left-0 z-10 flex px-6 py-11">
           <div className="mr-auto ml-7.5 flex flex-col max-sm:hidden">
             <span>{product.name}</span>
@@ -57,12 +62,21 @@ export default function Home() {
           <CameraControls makeDefault />
         </Canvas>
       </div>
-      <div className="z-10 h-[27vh] w-full bg-white">
+      <div
+        className={`z-10 w-full bg-white transition-all duration-300 ${isExpanded ? 'h-[10vh]' : 'h-[27vh]'}`}
+      >
         <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div className="grid grid-cols-3 px-12 py-6">
           <div className="justify-self-start">
-            <button className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden">
-              <SlArrowDown className="h-4 w-4" />
+            <button
+              className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? (
+                <SlArrowUp className="h-4 w-4" />
+              ) : (
+                <SlArrowDown className="h-4 w-4" />
+              )}
             </button>
           </div>
           <div className="flex items-center justify-center gap-10">
@@ -84,7 +98,9 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="flex scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6">
+        <div
+          className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
+        >
           {product.colorPalette.map((color) => (
             <div key={color.id} className="text-center">
               <button
