@@ -12,10 +12,15 @@ export interface ProductType {
     hex: string;
     name: string;
   }[];
+  parts: {
+    id: string;
+    name: string;
+  }[];
 }
 
 export interface ShoeProps {
   position?: [number, number, number];
   rotation?: [number, number, number];
   scale?: [number, number, number];
+  onPartSelect: (partName: string) => void;
 }

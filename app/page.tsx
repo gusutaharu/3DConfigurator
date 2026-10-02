@@ -25,6 +25,20 @@ const RIGHT_SHOE_CONFIG = {
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
+
+  const handlePartSelect = (partName: string) => {
+    if (selectedPart === partName) return;
+
+    setSelectedPart(partName);
+  };
+
+  const currentPart = product.parts.find((part) => part.id === selectedPart);
+  const currentIndex = product.parts.findIndex(
+    (part) => part.id === selectedPart,
+  );
+  const currentNumber = currentIndex !== -1 ? currentIndex + 1 : 1;
+  const totalCount = product.parts.length;
 
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden">
@@ -49,8 +63,8 @@ export default function Home() {
           <ambientLight intensity={1} />
           <Environment preset="city" />
           <group>
-            <Shoe {...LEFT_SHOE_CONFIG} />
-            <Shoe {...RIGHT_SHOE_CONFIG} />
+            <Shoe {...LEFT_SHOE_CONFIG} onPartSelect={handlePartSelect} />
+            <Shoe {...RIGHT_SHOE_CONFIG} onPartSelect={handlePartSelect} />
           </group>
           <ContactShadows
             position={[0, -0.7, 0]}
@@ -83,9 +97,11 @@ export default function Home() {
             <button>
               <HiArrowLeft className="h-5 w-5" />
             </button>
-            <div className="min-w-64 text-center text-xl max-md:min-w-44">
-              <span className="text-[#111111]">選択パーツ</span>
-              <span className="ml-2 text-[#757575]">1/10</span>
+            <div className="min-w-64 text-center text-xl whitespace-nowrap max-md:min-w-44">
+              <span className="text-[#111111]">{currentPart?.name}</span>
+              <span className="ml-2 text-[#757575]">
+                {currentNumber} / {totalCount}
+              </span>
             </div>
             <button>
               <HiArrowRight className="h-5 w-5" />

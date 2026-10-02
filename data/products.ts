@@ -21,5 +21,15 @@ export const PRODUCT_DATA: ProductType[] = [
       { id: 'purple', hex: '#9d4edd', name: 'パープル' },
       { id: 'pink', hex: '#f72585', name: 'ピンク' },
     ],
+    parts: [
+      { id: 'mesh', name: 'メッシュ (全体)' },
+      { id: 'laces', name: '靴ひも' },
+      { id: 'sole', name: 'ソール' },
+      { id: 'caps', name: 'アイレット' },
+      { id: 'inner', name: '裏地' },
+      { id: 'band', name: 'バンド' },
+      { id: 'stripes', name: 'ストライプ' },
+      { id: 'patch', name: 'パッチ' },
+    ],
   },
 ];

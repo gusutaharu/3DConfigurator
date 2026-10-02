@@ -12,6 +12,7 @@ export const Shoe = ({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   scale = [1, 1, 1],
+  onPartSelect,
 }: ShoeProps) => {
   type GLTFResult = {
     nodes: {
@@ -25,7 +26,21 @@ export const Shoe = ({
     product.modelPath,
   ) as unknown as GLTFResult;
   return (
-    <group position={position} rotation={rotation} scale={scale}>
+    <group
+      position={position}
+      rotation={rotation}
+      scale={scale}
+      onClick={(e: {
+        stopPropagation: () => void;
+        object: { material?: { name: string } };
+      }) => {
+        e.stopPropagation();
+        const clickedMaterialName = e.object.material?.name;
+        if (clickedMaterialName) {
+          onPartSelect(clickedMaterialName);
+        }
+      }}
+    >
       <mesh geometry={nodes.shoe.geometry} material={materials.laces} />
       <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} />
       <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} />
