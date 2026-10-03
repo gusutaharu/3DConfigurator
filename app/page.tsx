@@ -27,18 +27,27 @@ export default function Home() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
 
-  const handlePartSelect = (partName: string) => {
-    if (selectedPart === partName) return;
-
-    setSelectedPart(partName);
-  };
-
   const currentPart = product.parts.find((part) => part.id === selectedPart);
   const currentIndex = product.parts.findIndex(
     (part) => part.id === selectedPart,
   );
   const currentNumber = currentIndex !== -1 ? currentIndex + 1 : 1;
   const totalCount = product.parts.length;
+
+  const handlePartSelect = (partName: string) => {
+    if (selectedPart === partName) return;
+
+    setSelectedPart(partName);
+  };
+
+  const handleNavigate = (direction: number) => {
+    const validIndex = currentIndex === -1 ? 0 : currentIndex;
+
+    const nextIndex =
+      (validIndex + direction + product.parts.length) % product.parts.length;
+
+    handlePartSelect(product.parts[nextIndex].id);
+  };
 
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden">
@@ -94,7 +103,7 @@ export default function Home() {
             </button>
           </div>
           <div className="flex items-center justify-center gap-10">
-            <button>
+            <button onClick={() => handleNavigate(-1)}>
               <HiArrowLeft className="h-5 w-5" />
             </button>
             <div className="min-w-64 text-center text-xl whitespace-nowrap max-md:min-w-44">
@@ -103,7 +112,7 @@ export default function Home() {
                 {currentNumber} / {totalCount}
               </span>
             </div>
-            <button>
+            <button onClick={() => handleNavigate(1)}>
               <HiArrowRight className="h-5 w-5" />
             </button>
           </div>
