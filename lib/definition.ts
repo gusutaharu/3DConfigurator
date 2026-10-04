@@ -16,6 +16,9 @@ export interface ProductType {
     id: string;
     name: string;
   }[];
+  cameraViews: {
+    [partId: string]: [number, number, number, number, number, number];
+  };
 }
 
 export interface ShoeProps {

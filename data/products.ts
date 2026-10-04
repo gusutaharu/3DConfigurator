@@ -31,5 +31,15 @@ export const PRODUCT_DATA: ProductType[] = [
       { id: 'stripes', name: 'ストライプ' },
       { id: 'patch', name: 'パッチ' },
     ],
+    cameraViews: {
+      laces: [0, 0.8, -2.2, 0, 0.25, 0],
+      sole: [-4, 1, -4, 0, 0, 0],
+      caps: [0, 0.1, -2.4, 0, 0, 0],
+      inner: [-2, 3, 3, 0, 0.25, 0],
+      mesh: [-3, 0, -4, 0, 0, 0],
+      band: [0, 0.1, -2.4, 0, 0, 0],
+      stripes: [-5, 0, 0, 0, 0, 0],
+      patch: [0, 1, 3, 0, 0.25, 0],
+    },
   },
 ];

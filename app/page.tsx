@@ -1,7 +1,7 @@
 'use client';
 import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiShare2Line } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
@@ -27,6 +27,7 @@ export default function Home() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
 
+  const cameraControlsRef = useRef<CameraControls | null>(null);
   const currentPart = product.parts.find((part) => part.id === selectedPart);
   const currentIndex = product.parts.findIndex(
     (part) => part.id === selectedPart,
@@ -38,6 +39,10 @@ export default function Home() {
     if (selectedPart === partName) return;
 
     setSelectedPart(partName);
+    const targetView = product.cameraViews[partName];
+    if (targetView && cameraControlsRef.current) {
+      cameraControlsRef.current.setLookAt(...targetView, true);
+    }
   };
 
   const handleNavigate = (direction: number) => {
@@ -82,7 +87,7 @@ export default function Home() {
             blur={0.5}
             far={0.8}
           />
-          <CameraControls makeDefault />
+          <CameraControls ref={cameraControlsRef} makeDefault />
         </Canvas>
       </div>
       <div
