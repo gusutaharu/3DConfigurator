@@ -25,6 +25,7 @@ const RIGHT_SHOE_CONFIG = {
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
 
   const cameraControlsRef = useRef<CameraControls | null>(null);
@@ -55,7 +56,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-dvh w-screen flex-col overflow-hidden">
+    <div className="h-dvh w-screen overflow-hidden">
       <div
         className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${isExpanded ? 'h-[90vh]' : 'h-[73vh]'}`}
       >
@@ -91,7 +92,16 @@ export default function Home() {
         </Canvas>
       </div>
       <div
-        className={`z-10 w-full bg-white transition-all duration-300 ${isExpanded ? 'h-[10vh]' : 'h-[27vh]'}`}
+        className={`fixed inset-0 z-20 bg-black/20 backdrop-blur-xs transition-all duration-300 ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        onClick={() => {
+          setIsOpen(false);
+          setIsExpanded(false);
+        }}
+      />
+      <div
+        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 ${
+          isOpen ? 'h-[65vh]' : isExpanded ? 'h-[10vh]' : 'h-[27vh]'
+        }`}
       >
         <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div className="grid grid-cols-3 px-12 py-6">
@@ -122,7 +132,10 @@ export default function Home() {
             </button>
           </div>
           <div className="justify-self-end">
-            <button className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden">
+            <button
+              className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden"
+              onClick={() => setIsOpen(!isOpen)}
+            >
               <SlMenu className="h-5 w-5" />
               メニュー
             </button>
