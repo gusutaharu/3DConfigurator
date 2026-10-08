@@ -3,7 +3,7 @@ import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef, useState } from 'react';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
-import { RiShare2Line } from 'react-icons/ri';
+import { RiCheckFill, RiCloseLargeLine, RiShare2Line } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 
 import { PRODUCT_DATA } from '@/data/products';
@@ -103,56 +103,96 @@ export default function Home() {
           isOpen ? 'h-[65vh]' : isExpanded ? 'h-[10vh]' : 'h-[27vh]'
         }`}
       >
-        <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
-        <div className="grid grid-cols-3 px-12 py-6">
-          <div className="justify-self-start">
-            <button
-              className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              {isExpanded ? (
-                <SlArrowUp className="h-4 w-4" />
-              ) : (
-                <SlArrowDown className="h-4 w-4" />
-              )}
-            </button>
-          </div>
-          <div className="flex items-center justify-center gap-10">
-            <button onClick={() => handleNavigate(-1)}>
-              <HiArrowLeft className="h-5 w-5" />
-            </button>
-            <div className="min-w-64 text-center text-xl whitespace-nowrap max-md:min-w-44">
-              <span className="text-[#111111]">{currentPart?.name}</span>
-              <span className="ml-2 text-[#757575]">
-                {currentNumber} / {totalCount}
-              </span>
+        <div className={`py-10 pr-10 pl-40 ${isOpen ? '' : 'hidden'}`}>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 text-2xl">
+              <p className="font-bold">コンポーネンツ</p>
+              <span className="text-gray-400">{totalCount}</span>
             </div>
-            <button onClick={() => handleNavigate(1)}>
-              <HiArrowRight className="h-5 w-5" />
-            </button>
-          </div>
-          <div className="justify-self-end">
             <button
-              className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden"
-              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200"
+              onClick={() => setIsOpen(false)}
             >
-              <SlMenu className="h-5 w-5" />
-              メニュー
+              <RiCloseLargeLine className="h-5 w-5" />
             </button>
           </div>
+          <ul className="grid grid-cols-2 gap-10 pt-10">
+            {product.parts.map((part) => {
+              const checked = selectedPart ? part.id === selectedPart : false;
+              return (
+                <li
+                  className="flex cursor-pointer items-center gap-4 whitespace-nowrap"
+                  key={part.id}
+                  onClick={() => {
+                    handlePartSelect(part.id);
+                    setIsOpen(false);
+                  }}
+                >
+                  <span
+                    className="inline-block h-1 w-1 rounded-full p-1"
+                    style={{ backgroundColor: '#000000' }}
+                  />
+                  {part.name}
+                  {checked && <RiCheckFill className="ml-20 h-6 w-6" />}
+                </li>
+              );
+            })}
+          </ul>
         </div>
-        <div
-          className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
-        >
-          {product.colorPalette.map((color) => (
-            <div key={color.id} className="text-center">
+        <div className={`${isOpen ? 'hidden' : ''}`}>
+          <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
+          <div className="grid grid-cols-3 px-12 py-6">
+            <div className="justify-self-start">
               <button
-                style={{ backgroundColor: color.hex }}
-                className="h-8 w-8 rounded-full border border-gray-300"
-              ></button>
-              <div className="mt-2 text-sm whitespace-nowrap">{color.name}</div>
+                className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                {isExpanded ? (
+                  <SlArrowUp className="h-4 w-4" />
+                ) : (
+                  <SlArrowDown className="h-4 w-4" />
+                )}
+              </button>
             </div>
-          ))}
+            <div className="flex items-center justify-center gap-10">
+              <button onClick={() => handleNavigate(-1)}>
+                <HiArrowLeft className="h-5 w-5" />
+              </button>
+              <div className="min-w-64 text-center text-xl whitespace-nowrap max-md:min-w-44">
+                <span className="text-[#111111]">{currentPart?.name}</span>
+                <span className="ml-2 text-[#757575]">
+                  {currentNumber} / {totalCount}
+                </span>
+              </div>
+              <button onClick={() => handleNavigate(1)}>
+                <HiArrowRight className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="justify-self-end">
+              <button
+                className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <SlMenu className="h-5 w-5" />
+                メニュー
+              </button>
+            </div>
+          </div>
+          <div
+            className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
+          >
+            {product.colorPalette.map((color) => (
+              <div key={color.id} className="text-center">
+                <button
+                  style={{ backgroundColor: color.hex }}
+                  className="h-8 w-8 rounded-full border border-gray-300"
+                ></button>
+                <div className="mt-2 text-sm whitespace-nowrap">
+                  {color.name}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
