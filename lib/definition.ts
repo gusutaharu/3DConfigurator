@@ -15,6 +15,7 @@ export interface ProductType {
   parts: {
     id: string;
     name: string;
+    defaultColor: string;
   }[];
   cameraViews: {
     [partId: string]: [number, number, number, number, number, number];
