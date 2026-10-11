@@ -11,6 +11,14 @@ import { PRODUCT_DATA } from '@/data/products';
 import { Shoe } from './components/shoe';
 const product = PRODUCT_DATA[0];
 
+const initialPartColors = product.parts.reduce<Record<string, string>>(
+  (acc, part) => {
+    acc[part.id] = part.defaultColor;
+    return acc;
+  },
+  {},
+);
+
 const LEFT_SHOE_CONFIG = {
   position: [-0.45, 0.1, 0] as [number, number, number],
   rotation: [-Math.PI / 8, -Math.PI / 2, 0] as [number, number, number],
@@ -24,6 +32,8 @@ const RIGHT_SHOE_CONFIG = {
 };
 
 export default function Home() {
+  const [partColors, setPartColors] =
+    useState<Record<string, string>>(initialPartColors);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
@@ -35,6 +45,15 @@ export default function Home() {
   );
   const currentNumber = currentIndex !== -1 ? currentIndex + 1 : 1;
   const totalCount = product.parts.length;
+
+  const handleColorChange = (hexColor: string) => {
+    if (!selectedPart) return;
+
+    setPartColors((prev) => ({
+      ...prev,
+      [selectedPart]: hexColor,
+    }));
+  };
 
   const handlePartSelect = (partName: string) => {
     if (selectedPart === partName) return;
@@ -78,8 +97,16 @@ export default function Home() {
           <ambientLight intensity={1} />
           <Environment preset="city" />
           <group>
-            <Shoe {...LEFT_SHOE_CONFIG} onPartSelect={handlePartSelect} />
-            <Shoe {...RIGHT_SHOE_CONFIG} onPartSelect={handlePartSelect} />
+            <Shoe
+              {...LEFT_SHOE_CONFIG}
+              onPartSelect={handlePartSelect}
+              partColors={partColors}
+            />
+            <Shoe
+              {...RIGHT_SHOE_CONFIG}
+              onPartSelect={handlePartSelect}
+              partColors={partColors}
+            />
           </group>
           <ContactShadows
             position={[0, -0.7, 0]}
@@ -186,6 +213,7 @@ export default function Home() {
                 <button
                   style={{ backgroundColor: color.hex }}
                   className="h-8 w-8 rounded-full border border-gray-300"
+                  onClick={() => handleColorChange(color.hex)}
                 ></button>
                 <div className="mt-2 text-sm whitespace-nowrap">
                   {color.name}

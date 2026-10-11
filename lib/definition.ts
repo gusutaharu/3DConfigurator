@@ -27,4 +27,5 @@ export interface ShoeProps {
   rotation?: [number, number, number];
   scale?: [number, number, number];
   onPartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
 }
