@@ -208,18 +208,25 @@ export default function Home() {
           <div
             className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
           >
-            {product.colorPalette.map((color) => (
-              <div key={color.id} className="text-center">
-                <button
-                  style={{ backgroundColor: color.hex }}
-                  className="h-8 w-8 rounded-full border border-gray-300"
-                  onClick={() => handleColorChange(color.hex)}
-                ></button>
-                <div className="mt-2 text-sm whitespace-nowrap">
-                  {color.name}
+            {product.colorPalette.map((color) => {
+              const isSelected = selectedPart
+                ? partColors[selectedPart] === color.hex
+                : false;
+              return (
+                <div key={color.id} className="text-center">
+                  <button
+                    style={{ backgroundColor: color.hex }}
+                    className="h-8 w-8 rounded-full border border-gray-300"
+                    onClick={() => handleColorChange(color.hex)}
+                  ></button>
+                  <div
+                    className={`mt-2 text-sm whitespace-nowrap ${isSelected ? `opacity-100` : `opacity-0`}`}
+                  >
+                    {color.name}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
