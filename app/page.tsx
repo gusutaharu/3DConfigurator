@@ -157,7 +157,7 @@ export default function Home() {
                 >
                   <span
                     className="inline-block h-1 w-1 rounded-full p-1"
-                    style={{ backgroundColor: '#000000' }}
+                    style={{ backgroundColor: partColors[part.id] }}
                   />
                   {part.name}
                   {checked && <RiCheckFill className="ml-20 h-6 w-6" />}
