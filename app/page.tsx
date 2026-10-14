@@ -50,11 +50,12 @@ export default function Home() {
 
   const triggerFlash = (partName: string) => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
-
-    setFlashingPart(partName);
     flashTimerRef.current = setTimeout(() => {
-      setFlashingPart(null);
-    }, 1000);
+      setFlashingPart(partName);
+      flashTimerRef.current = setTimeout(() => {
+        setFlashingPart(null);
+      }, 800);
+    }, 600);
   };
 
   const handleColorChange = (hexColor: string) => {
