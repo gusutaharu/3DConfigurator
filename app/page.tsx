@@ -32,11 +32,13 @@ const RIGHT_SHOE_CONFIG = {
 };
 
 export default function Home() {
+  const [flashingPart, setFlashingPart] = useState<string | null>(null);
   const [partColors, setPartColors] =
     useState<Record<string, string>>(initialPartColors);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
+  const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const cameraControlsRef = useRef<CameraControls | null>(null);
   const currentPart = product.parts.find((part) => part.id === selectedPart);
@@ -45,6 +47,15 @@ export default function Home() {
   );
   const currentNumber = currentIndex !== -1 ? currentIndex + 1 : 1;
   const totalCount = product.parts.length;
+
+  const triggerFlash = (partName: string) => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+
+    setFlashingPart(partName);
+    flashTimerRef.current = setTimeout(() => {
+      setFlashingPart(null);
+    }, 1000);
+  };
 
   const handleColorChange = (hexColor: string) => {
     if (!selectedPart) return;
@@ -59,6 +70,7 @@ export default function Home() {
     if (selectedPart === partName) return;
 
     setSelectedPart(partName);
+    triggerFlash(partName);
     const targetView = product.cameraViews[partName];
     if (targetView && cameraControlsRef.current) {
       cameraControlsRef.current.setLookAt(...targetView, true);
@@ -101,11 +113,13 @@ export default function Home() {
               {...LEFT_SHOE_CONFIG}
               onPartSelect={handlePartSelect}
               partColors={partColors}
+              flashingPart={flashingPart}
             />
             <Shoe
               {...RIGHT_SHOE_CONFIG}
               onPartSelect={handlePartSelect}
               partColors={partColors}
+              flashingPart={flashingPart}
             />
           </group>
           <ContactShadows

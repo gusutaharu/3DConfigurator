@@ -28,4 +28,5 @@ export interface ShoeProps {
   scale?: [number, number, number];
   onPartSelect: (partName: string) => void;
   partColors: Record<string, string>;
+  flashingPart?: string | null;
 }
