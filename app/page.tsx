@@ -170,7 +170,7 @@ export default function Home() {
                   }}
                 >
                   <span
-                    className="inline-block h-1 w-1 rounded-full p-1"
+                    className="inline-block h-1 w-1 rounded-full p-1 ring-1 ring-gray-300"
                     style={{ backgroundColor: partColors[part.id] }}
                   />
                   {part.name}
