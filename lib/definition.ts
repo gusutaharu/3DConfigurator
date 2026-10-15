@@ -12,10 +12,21 @@ export interface ProductType {
     hex: string;
     name: string;
   }[];
+  parts: {
+    id: string;
+    name: string;
+    defaultColor: string;
+  }[];
+  cameraViews: {
+    [partId: string]: [number, number, number, number, number, number];
+  };
 }
 
 export interface ShoeProps {
   position?: [number, number, number];
   rotation?: [number, number, number];
   scale?: [number, number, number];
+  onPartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
+  flashingPart?: string | null;
 }
