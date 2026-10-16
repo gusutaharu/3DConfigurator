@@ -141,29 +141,35 @@ export default function Home() {
         }}
       />
       <div
-        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 ${
-          isOpen ? 'h-[65vh]' : isExpanded ? 'h-[10vh]' : 'h-[27vh]'
+        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 max-sm:rounded-2xl ${
+          isOpen
+            ? 'h-[65vh] max-sm:h-[90vh]'
+            : isExpanded
+              ? 'h-[10vh]'
+              : 'h-[27vh]'
         }`}
       >
-        <div className={`py-10 pr-10 pl-40 ${isOpen ? '' : 'hidden'}`}>
+        <div
+          className={`py-10 pr-10 pl-40 max-md:px-8 ${isOpen ? '' : 'hidden'}`}
+        >
           <div className="flex items-center justify-between">
             <div className="flex gap-2 text-2xl">
               <p className="font-bold">コンポーネンツ</p>
               <span className="text-gray-400">{totalCount}</span>
             </div>
             <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
               onClick={() => setIsOpen(false)}
             >
               <RiCloseLargeLine className="h-5 w-5" />
             </button>
           </div>
-          <ul className="grid grid-cols-2 gap-10 pt-10">
+          <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0">
             {product.parts.map((part) => {
               const checked = selectedPart ? part.id === selectedPart : false;
               return (
                 <li
-                  className="flex cursor-pointer items-center gap-4 whitespace-nowrap"
+                  className="flex cursor-pointer items-center gap-4 whitespace-nowrap max-sm:border-b max-sm:border-gray-300 max-sm:py-8"
                   key={part.id}
                   onClick={() => {
                     handlePartSelect(part.id);
@@ -175,7 +181,9 @@ export default function Home() {
                     style={{ backgroundColor: partColors[part.id] }}
                   />
                   {part.name}
-                  {checked && <RiCheckFill className="ml-20 h-6 w-6" />}
+                  {checked && (
+                    <RiCheckFill className="ml-20 h-6 w-6 max-sm:ml-auto" />
+                  )}
                 </li>
               );
             })}
