@@ -164,30 +164,32 @@ export default function Home() {
               <RiCloseLargeLine className="h-5 w-5" />
             </button>
           </div>
-          <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0">
-            {product.parts.map((part) => {
-              const checked = selectedPart ? part.id === selectedPart : false;
-              return (
-                <li
-                  className="flex cursor-pointer items-center gap-4 whitespace-nowrap max-sm:border-b max-sm:border-gray-300 max-sm:py-8"
-                  key={part.id}
-                  onClick={() => {
-                    handlePartSelect(part.id);
-                    setIsOpen(false);
-                  }}
-                >
-                  <span
-                    className="inline-block h-1 w-1 rounded-full p-1 ring-1 ring-gray-300"
-                    style={{ backgroundColor: partColors[part.id] }}
-                  />
-                  {part.name}
-                  {checked && (
-                    <RiCheckFill className="ml-20 h-6 w-6 max-sm:ml-auto" />
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+          <div className="max-h-[65vh] scrollbar-none overflow-y-auto max-sm:max-h-[80vh]">
+            <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0">
+              {product.parts.map((part) => {
+                const checked = selectedPart ? part.id === selectedPart : false;
+                return (
+                  <li
+                    className="flex cursor-pointer items-center gap-4 whitespace-nowrap max-sm:border-b max-sm:border-gray-300 max-sm:py-8 max-sm:last:border-b-0"
+                    key={part.id}
+                    onClick={() => {
+                      handlePartSelect(part.id);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <span
+                      className="inline-block h-1 w-1 rounded-full p-1 ring-1 ring-gray-300"
+                      style={{ backgroundColor: partColors[part.id] }}
+                    />
+                    {part.name}
+                    {checked && (
+                      <RiCheckFill className="ml-20 h-6 w-6 max-sm:ml-auto" />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
         <div className={`${isOpen ? 'hidden' : ''}`}>
           <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
