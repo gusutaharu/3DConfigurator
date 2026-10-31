@@ -149,6 +149,7 @@ export default function Home() {
               : 'h-[27vh]'
         }`}
       >
+        <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div
           className={`py-10 pr-10 pl-40 max-md:px-8 ${isOpen ? '' : 'hidden'}`}
         >
@@ -192,7 +193,6 @@ export default function Home() {
           </div>
         </div>
         <div className={`${isOpen ? 'hidden' : ''}`}>
-          <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
           <div className="grid grid-cols-3 px-12 py-6">
             <div className="justify-self-start">
               <button
