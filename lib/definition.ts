@@ -30,3 +30,9 @@ export interface ShoeProps {
   partColors: Record<string, string>;
   flashingPart?: string | null;
 }
+
+export interface SHOE_CONFIG_TYPE {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale: [number, number, number];
+}

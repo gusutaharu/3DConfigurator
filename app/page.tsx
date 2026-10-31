@@ -6,7 +6,11 @@ import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiCheckFill, RiCloseLargeLine, RiShare2Line } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 
-import { PRODUCT_DATA } from '@/data/products';
+import {
+  LEFT_SHOE_CONFIG,
+  PRODUCT_DATA,
+  RIGHT_SHOE_CONFIG,
+} from '@/data/products';
 
 import { Shoe } from './components/shoe';
 const product = PRODUCT_DATA[0];
@@ -18,18 +22,6 @@ const initialPartColors = product.parts.reduce<Record<string, string>>(
   },
   {},
 );
-
-const LEFT_SHOE_CONFIG = {
-  position: [-0.45, 0.1, 0] as [number, number, number],
-  rotation: [-Math.PI / 8, -Math.PI / 2, 0] as [number, number, number],
-  scale: [-1, 1, 1] as [number, number, number],
-};
-
-const RIGHT_SHOE_CONFIG = {
-  position: [0.45, 0.1, 0] as [number, number, number],
-  rotation: [-Math.PI / 8, Math.PI / 2, 0] as [number, number, number],
-  scale: [1, 1, 1] as [number, number, number],
-};
 
 export default function Home() {
   const [flashingPart, setFlashingPart] = useState<string | null>(null);
