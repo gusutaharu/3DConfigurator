@@ -1,3 +1,16 @@
+import { CameraControls } from '@react-three/drei';
+
+export interface ProductCanvasProps {
+  productCamera: {
+    position: [number, number, number];
+    fov: number;
+  };
+  handlePartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
+  flashingPart?: string | null;
+  cameraControlsRef: React.RefObject<CameraControls | null>;
+}
+
 export interface MenuProps {
   product: ProductType;
   setIsOpen: (isOpen: boolean) => void;

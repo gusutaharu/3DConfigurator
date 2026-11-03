@@ -1,19 +1,15 @@
 'use client';
-import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+
+import { CameraControls } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 import { RiShare2Line } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 
-import {
-  LEFT_SHOE_CONFIG,
-  PRODUCT_DATA,
-  RIGHT_SHOE_CONFIG,
-} from '@/data/products';
+import { PRODUCT_DATA } from '@/data/products';
 
 import { DrawerContent } from './components/drawerContent';
-import { Shoe } from './components/shoe';
+import { ProductCanvas } from './components/productCanvas';
 const product = PRODUCT_DATA[0];
 
 const initialPartColors = product.parts.reduce<Record<string, string>>(
@@ -100,32 +96,13 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <Canvas camera={product.camera}>
-          <ambientLight intensity={1} />
-          <Environment preset="city" />
-          <group>
-            <Shoe
-              {...LEFT_SHOE_CONFIG}
-              onPartSelect={handlePartSelect}
-              partColors={partColors}
-              flashingPart={flashingPart}
-            />
-            <Shoe
-              {...RIGHT_SHOE_CONFIG}
-              onPartSelect={handlePartSelect}
-              partColors={partColors}
-              flashingPart={flashingPart}
-            />
-          </group>
-          <ContactShadows
-            position={[0, -0.7, 0]}
-            opacity={0.8}
-            scale={7}
-            blur={0.5}
-            far={0.8}
-          />
-          <CameraControls ref={cameraControlsRef} makeDefault />
-        </Canvas>
+        <ProductCanvas
+          productCamera={product.camera}
+          handlePartSelect={handlePartSelect}
+          partColors={partColors}
+          flashingPart={flashingPart}
+          cameraControlsRef={cameraControlsRef}
+        />
       </div>
       <div
         className={`fixed inset-0 z-20 bg-black/20 backdrop-blur-xs transition-all duration-300 ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
