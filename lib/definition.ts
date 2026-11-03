@@ -1,3 +1,11 @@
+export interface MenuProps {
+  product: ProductType;
+  setIsOpen: (isOpen: boolean) => void;
+  selectedPart: string | null;
+  handlePartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
+}
+
 export interface ProductType {
   id: number;
   modelPath: string;

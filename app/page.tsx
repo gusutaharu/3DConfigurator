@@ -3,7 +3,7 @@ import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef, useState } from 'react';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
-import { RiCheckFill, RiCloseLargeLine, RiShare2Line } from 'react-icons/ri';
+import { RiShare2Line } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 
 import {
@@ -12,6 +12,7 @@ import {
   RIGHT_SHOE_CONFIG,
 } from '@/data/products';
 
+import { DrawerContent } from './components/drawerContent';
 import { Shoe } from './components/shoe';
 const product = PRODUCT_DATA[0];
 
@@ -29,6 +30,7 @@ export default function Home() {
     useState<Record<string, string>>(initialPartColors);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
   const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -141,47 +143,17 @@ export default function Home() {
               : 'h-[27vh]'
         }`}
       >
-        <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
         <div
-          className={`py-10 pr-10 pl-40 max-md:px-8 ${isOpen ? '' : 'hidden'}`}
+          className={`z-30 py-10 pr-10 pl-40 max-md:px-8 ${isOpen ? '' : 'hidden'}`}
         >
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 text-2xl">
-              <p className="font-bold">コンポーネンツ</p>
-              <span className="text-gray-400">{totalCount}</span>
-            </div>
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
-              onClick={() => setIsOpen(false)}
-            >
-              <RiCloseLargeLine className="h-5 w-5" />
-            </button>
-          </div>
-          <div className="max-h-[65vh] scrollbar-none overflow-y-auto max-sm:max-h-[80vh]">
-            <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0">
-              {product.parts.map((part) => {
-                const checked = selectedPart ? part.id === selectedPart : false;
-                return (
-                  <li
-                    className="flex cursor-pointer items-center gap-4 whitespace-nowrap max-sm:border-b max-sm:border-gray-300 max-sm:py-8 max-sm:last:border-b-0"
-                    key={part.id}
-                    onClick={() => {
-                      handlePartSelect(part.id);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <span
-                      className="inline-block h-1 w-1 rounded-full p-1 ring-1 ring-gray-300"
-                      style={{ backgroundColor: partColors[part.id] }}
-                    />
-                    {part.name}
-                    {checked && (
-                      <RiCheckFill className="ml-20 h-6 w-6 max-sm:ml-auto" />
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+          <div className="max-sm:hidden">
+            <DrawerContent
+              product={product}
+              setIsOpen={setIsOpen}
+              selectedPart={selectedPart}
+              handlePartSelect={handlePartSelect}
+              partColors={partColors}
+            />
           </div>
         </div>
         <div className={`${isOpen ? 'hidden' : ''}`}>
