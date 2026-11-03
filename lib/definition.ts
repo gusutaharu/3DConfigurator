@@ -1,5 +1,17 @@
 import { CameraControls } from '@react-three/drei';
 
+export interface BottomMenuProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  isExpanded: boolean;
+  setIsExpanded: (isExpanded: boolean) => void;
+  product: ProductType;
+  selectedPart: string | null;
+  partColors: Record<string, string>;
+  handleColorChange: (hexColor: string) => void;
+  handlePartSelect: (partName: string) => void;
+}
+
 export interface ProductCanvasProps {
   productCamera: {
     position: [number, number, number];
