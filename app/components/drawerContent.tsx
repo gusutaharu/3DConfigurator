@@ -3,6 +3,8 @@ import { RiCheckFill, RiCloseLargeLine } from 'react-icons/ri';
 import { MenuProps } from '@/lib/definition';
 
 export const DrawerContent = ({
+  handleTouchStart,
+  handleTouchEnd,
   product,
   setIsOpen,
   selectedPart,
@@ -11,7 +13,11 @@ export const DrawerContent = ({
 }: MenuProps) => {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div
+        className="flex items-center justify-between"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="flex gap-2 text-2xl">
           <p className="font-bold">コンポーネンツ</p>
           <span className="text-gray-400">{product.parts.length}</span>

@@ -1,6 +1,8 @@
 import { CameraControls } from '@react-three/drei';
 
 export interface BottomMenuProps {
+  handleTouchStart: (e: React.TouchEvent) => void;
+  handleTouchEnd: (e: React.TouchEvent) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   isExpanded: boolean;
@@ -24,6 +26,8 @@ export interface ProductCanvasProps {
 }
 
 export interface MenuProps {
+  handleTouchStart: (e: React.TouchEvent) => void;
+  handleTouchEnd: (e: React.TouchEvent) => void;
   product: ProductType;
   setIsOpen: (isOpen: boolean) => void;
   selectedPart: string | null;

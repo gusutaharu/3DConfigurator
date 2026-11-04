@@ -31,6 +31,22 @@ export default function Home() {
 
   const cameraControlsRef = useRef<CameraControls | null>(null);
 
+  const touchStartY = useRef<number>(0);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    const diff = touchStartY.current - touchEndY;
+
+    if (diff > 50 && !isOpen) {
+      setIsOpen(true);
+    }
+    if (diff < -50 && isOpen) {
+      setIsOpen(false);
+    }
+  };
+
   const triggerFlash = (partName: string) => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
     flashTimerRef.current = setTimeout(() => {
@@ -62,7 +78,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-dvh w-screen overflow-hidden">
+    <div className="h-dvh w-screen overflow-hidden overflow-x-hidden bg-gray-100">
       <div
         className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${isExpanded ? 'h-[90vh]' : 'h-[73vh]'}`}
       >
@@ -96,28 +112,38 @@ export default function Home() {
         }}
       />
       <div
-        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 max-sm:rounded-2xl ${
+        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 max-sm:rounded-t-2xl ${
           isOpen
-            ? 'h-[65vh] max-sm:h-[90vh]'
+            ? 'h-[65vh] max-sm:h-[80vh]'
             : isExpanded
               ? 'h-[10vh]'
               : 'h-[27vh]'
         }`}
       >
         <div
-          className={`z-30 py-10 pr-10 pl-40 max-md:px-8 ${isOpen ? '' : 'hidden'}`}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => setIsOpen(!isOpen)}
+          className={`flex w-full cursor-grab touch-none justify-center pt-2 active:cursor-grabbing sm:hidden ${isOpen ? 'pb-10' : 'pb-5'}`}
         >
-          <div className="max-sm:hidden">
-            <DrawerContent
-              product={product}
-              setIsOpen={setIsOpen}
-              selectedPart={selectedPart}
-              handlePartSelect={handlePartSelect}
-              partColors={partColors}
-            />
-          </div>
+          <div className="h-1 w-8 rounded-full bg-gray-300" />
+        </div>
+        <div
+          className={`z-30 overscroll-contain py-10 pr-10 pl-40 max-md:px-8 max-sm:pt-0 ${isOpen ? '' : 'hidden'}`}
+        >
+          <DrawerContent
+            handleTouchStart={handleTouchStart}
+            handleTouchEnd={handleTouchEnd}
+            product={product}
+            setIsOpen={setIsOpen}
+            selectedPart={selectedPart}
+            handlePartSelect={handlePartSelect}
+            partColors={partColors}
+          />
         </div>
         <BottomMenu
+          handleTouchStart={handleTouchStart}
+          handleTouchEnd={handleTouchEnd}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           isExpanded={isExpanded}

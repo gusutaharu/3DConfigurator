@@ -4,6 +4,8 @@ import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
 import { BottomMenuProps } from '@/lib/definition';
 
 export const BottomMenu = ({
+  handleTouchStart,
+  handleTouchEnd,
   isOpen,
   setIsOpen,
   isExpanded,
@@ -28,10 +30,13 @@ export const BottomMenu = ({
 
     handlePartSelect(product.parts[nextIndex].id);
   };
-
   return (
     <div className={`${isOpen ? 'hidden' : ''}`}>
-      <div className="grid grid-cols-3 px-12 py-6">
+      <div
+        className="grid grid-cols-3 px-12 py-6 max-sm:py-0"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="justify-self-start">
           <button
             className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
