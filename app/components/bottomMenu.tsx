@@ -84,7 +84,7 @@ export const BottomMenu = ({
             <div key={color.id} className="text-center">
               <button
                 style={{ backgroundColor: color.hex }}
-                className={`h-8 w-8 rounded-full border border-gray-300 ${isSelected ? `ring-1 ring-gray-300 ring-offset-3` : ``}`}
+                className={`h-8 w-8 rounded-full border border-gray-300 ${isSelected ? `ring-1 ring-gray-300 ring-offset-4` : ``}`}
                 onClick={() => handleColorChange(color.hex)}
               ></button>
               <div

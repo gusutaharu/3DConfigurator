@@ -38,12 +38,19 @@ export default function Home() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
+    if (Math.abs(diff) < 50) return;
 
-    if (diff > 50 && !isOpen) {
-      setIsOpen(true);
-    }
-    if (diff < -50 && isOpen) {
-      setIsOpen(false);
+    if (diff > 0) {
+      if (!isOpen) {
+        setIsOpen(true);
+        if (isExpanded) {
+          setIsExpanded(false);
+          setIsOpen(false);
+        }
+      }
+    } else {
+      if (isOpen) setIsOpen(false);
+      if (!isOpen && !isExpanded) setIsExpanded(true);
     }
   };
 

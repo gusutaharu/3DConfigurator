@@ -30,7 +30,7 @@ export const DrawerContent = ({
         </button>
       </div>
       <div className="max-h-[65vh] scrollbar-none overflow-y-auto max-sm:max-h-[80vh]">
-        <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0">
+        <ul className="grid grid-cols-2 gap-10 pt-10 max-sm:flex max-sm:flex-col max-sm:gap-0 max-sm:pb-50">
           {product.parts.map((part) => {
             const checked = selectedPart ? part.id === selectedPart : false;
             return (
