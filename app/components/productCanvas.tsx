@@ -15,8 +15,13 @@ export const ProductCanvas = ({
   flashingPart,
   cameraControlsRef,
 }: ProductCanvasProps) => {
+  const isMobile =
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+  const currentCamera = isMobile
+    ? { ...productCamera, fov: 50 }
+    : productCamera;
   return (
-    <Canvas camera={productCamera}>
+    <Canvas camera={currentCamera}>
       <ambientLight intensity={1} />
       <Environment preset="city" />
       <group>

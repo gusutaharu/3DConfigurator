@@ -74,7 +74,7 @@ export const BottomMenu = ({
         </div>
       </div>
       <div
-        className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
+        className={`scrollbar-none justify-center gap-4 overflow-x-auto p-6 max-sm:pt-15 ${isExpanded ? `hidden` : `flex`}`}
       >
         {product.colorPalette.map((color) => {
           const isSelected = selectedPart

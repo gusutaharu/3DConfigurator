@@ -1,13 +1,13 @@
 import { ProductType, SHOE_CONFIG_TYPE } from '../lib/definition';
 
 export const LEFT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
-  position: [-0.45, 0.1, 0],
+  position: [-0.4, 0.1, 0],
   rotation: [-Math.PI / 8, -Math.PI / 2, 0],
   scale: [-1, 1, 1],
 };
 
 export const RIGHT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
-  position: [0.45, 0.1, 0],
+  position: [0.6, 0.1, 0],
   rotation: [-Math.PI / 8, Math.PI / 2, 0],
   scale: [1, 1, 1],
 };
