@@ -78,9 +78,33 @@ export default function Home() {
 
     setSelectedPart(partName);
     triggerFlash(partName);
+
     const targetView = product.cameraViews[partName];
     if (targetView && cameraControlsRef.current) {
-      cameraControlsRef.current.setLookAt(...targetView, true);
+      const [posX, posY, posZ, targetX, targetY, targetZ] = targetView;
+
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+
+      let adjustedPosZ = posZ;
+      let adjustedTargetY = targetY;
+
+      if (isMobile) {
+        const distanceMultiplier = 1.1;
+
+        adjustedPosZ = posZ * distanceMultiplier;
+
+        adjustedTargetY = targetY + 0.1;
+      }
+
+      cameraControlsRef.current.setLookAt(
+        posX,
+        posY,
+        adjustedPosZ,
+        targetX,
+        adjustedTargetY,
+        targetZ,
+        true,
+      );
     }
   };
 
