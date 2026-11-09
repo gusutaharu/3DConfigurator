@@ -1,14 +1,14 @@
 'use client';
-import { CameraControls, ContactShadows, Environment } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+
+import { CameraControls } from '@react-three/drei';
 import { useRef, useState } from 'react';
-import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
-import { RiCheckFill, RiCloseLargeLine, RiShare2Line } from 'react-icons/ri';
-import { SlArrowDown, SlArrowUp, SlMenu } from 'react-icons/sl';
+import { RiShare2Line } from 'react-icons/ri';
 
 import { PRODUCT_DATA } from '@/data/products';
 
-import { Shoe } from './components/shoe';
+import { BottomMenu } from './components/bottomMenu';
+import { DrawerContent } from './components/drawerContent';
+import { ProductCanvas } from './components/productCanvas';
 const product = PRODUCT_DATA[0];
 
 const initialPartColors = product.parts.reduce<Record<string, string>>(
@@ -19,34 +19,40 @@ const initialPartColors = product.parts.reduce<Record<string, string>>(
   {},
 );
 
-const LEFT_SHOE_CONFIG = {
-  position: [-0.45, 0.1, 0] as [number, number, number],
-  rotation: [-Math.PI / 8, -Math.PI / 2, 0] as [number, number, number],
-  scale: [-1, 1, 1] as [number, number, number],
-};
-
-const RIGHT_SHOE_CONFIG = {
-  position: [0.45, 0.1, 0] as [number, number, number],
-  rotation: [-Math.PI / 8, Math.PI / 2, 0] as [number, number, number],
-  scale: [1, 1, 1] as [number, number, number],
-};
-
 export default function Home() {
   const [flashingPart, setFlashingPart] = useState<string | null>(null);
   const [partColors, setPartColors] =
     useState<Record<string, string>>(initialPartColors);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
   const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const cameraControlsRef = useRef<CameraControls | null>(null);
-  const currentPart = product.parts.find((part) => part.id === selectedPart);
-  const currentIndex = product.parts.findIndex(
-    (part) => part.id === selectedPart,
-  );
-  const currentNumber = currentIndex !== -1 ? currentIndex + 1 : 1;
-  const totalCount = product.parts.length;
+
+  const touchStartY = useRef<number>(0);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    const diff = touchStartY.current - touchEndY;
+    if (Math.abs(diff) < 50) return;
+
+    if (diff > 0) {
+      if (!isOpen) {
+        setIsOpen(true);
+        if (isExpanded) {
+          setIsExpanded(false);
+          setIsOpen(false);
+        }
+      }
+    } else {
+      if (isOpen) setIsOpen(false);
+      if (!isOpen && !isExpanded) setIsExpanded(true);
+    }
+  };
 
   const triggerFlash = (partName: string) => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
@@ -72,23 +78,38 @@ export default function Home() {
 
     setSelectedPart(partName);
     triggerFlash(partName);
+
     const targetView = product.cameraViews[partName];
     if (targetView && cameraControlsRef.current) {
-      cameraControlsRef.current.setLookAt(...targetView, true);
+      const [posX, posY, posZ, targetX, targetY, targetZ] = targetView;
+
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+
+      let adjustedPosZ = posZ;
+      let adjustedTargetY = targetY;
+
+      if (isMobile) {
+        const distanceMultiplier = 1.1;
+
+        adjustedPosZ = posZ * distanceMultiplier;
+
+        adjustedTargetY = targetY + 0.1;
+      }
+
+      cameraControlsRef.current.setLookAt(
+        posX,
+        posY,
+        adjustedPosZ,
+        targetX,
+        adjustedTargetY,
+        targetZ,
+        true,
+      );
     }
   };
 
-  const handleNavigate = (direction: number) => {
-    const validIndex = currentIndex === -1 ? 0 : currentIndex;
-
-    const nextIndex =
-      (validIndex + direction + product.parts.length) % product.parts.length;
-
-    handlePartSelect(product.parts[nextIndex].id);
-  };
-
   return (
-    <div className="h-dvh w-screen overflow-hidden">
+    <div className="h-dvh w-screen overflow-hidden overflow-x-hidden bg-gray-100">
       <div
         className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${isExpanded ? 'h-[90vh]' : 'h-[73vh]'}`}
       >
@@ -106,32 +127,13 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <Canvas camera={product.camera}>
-          <ambientLight intensity={1} />
-          <Environment preset="city" />
-          <group>
-            <Shoe
-              {...LEFT_SHOE_CONFIG}
-              onPartSelect={handlePartSelect}
-              partColors={partColors}
-              flashingPart={flashingPart}
-            />
-            <Shoe
-              {...RIGHT_SHOE_CONFIG}
-              onPartSelect={handlePartSelect}
-              partColors={partColors}
-              flashingPart={flashingPart}
-            />
-          </group>
-          <ContactShadows
-            position={[0, -0.7, 0]}
-            opacity={0.8}
-            scale={7}
-            blur={0.5}
-            far={0.8}
-          />
-          <CameraControls ref={cameraControlsRef} makeDefault />
-        </Canvas>
+        <ProductCanvas
+          productCamera={product.camera}
+          handlePartSelect={handlePartSelect}
+          partColors={partColors}
+          flashingPart={flashingPart}
+          cameraControlsRef={cameraControlsRef}
+        />
       </div>
       <div
         className={`fixed inset-0 z-20 bg-black/20 backdrop-blur-xs transition-all duration-300 ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
@@ -141,109 +143,48 @@ export default function Home() {
         }}
       />
       <div
-        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 ${
-          isOpen ? 'h-[65vh]' : isExpanded ? 'h-[10vh]' : 'h-[27vh]'
+        className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 max-sm:rounded-t-2xl ${
+          isOpen
+            ? 'h-[65vh] max-sm:h-[80vh]'
+            : isExpanded
+              ? 'h-[10vh]'
+              : 'h-[27vh]'
         }`}
       >
-        <div className={`py-10 pr-10 pl-40 ${isOpen ? '' : 'hidden'}`}>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 text-2xl">
-              <p className="font-bold">コンポーネンツ</p>
-              <span className="text-gray-400">{totalCount}</span>
-            </div>
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200"
-              onClick={() => setIsOpen(false)}
-            >
-              <RiCloseLargeLine className="h-5 w-5" />
-            </button>
-          </div>
-          <ul className="grid grid-cols-2 gap-10 pt-10">
-            {product.parts.map((part) => {
-              const checked = selectedPart ? part.id === selectedPart : false;
-              return (
-                <li
-                  className="flex cursor-pointer items-center gap-4 whitespace-nowrap"
-                  key={part.id}
-                  onClick={() => {
-                    handlePartSelect(part.id);
-                    setIsOpen(false);
-                  }}
-                >
-                  <span
-                    className="inline-block h-1 w-1 rounded-full p-1 ring-1 ring-gray-300"
-                    style={{ backgroundColor: partColors[part.id] }}
-                  />
-                  {part.name}
-                  {checked && <RiCheckFill className="ml-20 h-6 w-6" />}
-                </li>
-              );
-            })}
-          </ul>
+        <div
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => setIsOpen(!isOpen)}
+          className={`flex w-full cursor-grab touch-none justify-center pt-2 active:cursor-grabbing sm:hidden ${isOpen ? 'pb-10' : 'pb-5'}`}
+        >
+          <div className="h-1 w-8 rounded-full bg-gray-300" />
         </div>
-        <div className={`${isOpen ? 'hidden' : ''}`}>
-          <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-gray-300 sm:hidden" />
-          <div className="grid grid-cols-3 px-12 py-6">
-            <div className="justify-self-start">
-              <button
-                className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                {isExpanded ? (
-                  <SlArrowUp className="h-4 w-4" />
-                ) : (
-                  <SlArrowDown className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            <div className="flex items-center justify-center gap-10">
-              <button onClick={() => handleNavigate(-1)}>
-                <HiArrowLeft className="h-5 w-5" />
-              </button>
-              <div className="min-w-64 text-center text-xl whitespace-nowrap max-md:min-w-44">
-                <span className="text-[#111111]">{currentPart?.name}</span>
-                <span className="ml-2 text-[#757575]">
-                  {currentNumber} / {totalCount}
-                </span>
-              </div>
-              <button onClick={() => handleNavigate(1)}>
-                <HiArrowRight className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="justify-self-end">
-              <button
-                className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <SlMenu className="h-5 w-5" />
-                メニュー
-              </button>
-            </div>
-          </div>
-          <div
-            className={`scrollbar-none items-center justify-center gap-4 overflow-x-auto p-6 ${isExpanded ? `hidden` : `flex`}`}
-          >
-            {product.colorPalette.map((color) => {
-              const isSelected = selectedPart
-                ? partColors[selectedPart] === color.hex
-                : false;
-              return (
-                <div key={color.id} className="text-center">
-                  <button
-                    style={{ backgroundColor: color.hex }}
-                    className={`h-8 w-8 rounded-full border border-gray-300 ${isSelected ? `ring-1 ring-gray-300 ring-offset-3` : ``}`}
-                    onClick={() => handleColorChange(color.hex)}
-                  ></button>
-                  <div
-                    className={`mt-2 text-sm whitespace-nowrap ${isSelected ? `opacity-100` : `opacity-0`}`}
-                  >
-                    {color.name}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <div
+          className={`z-30 overscroll-contain py-10 pr-10 pl-40 max-md:px-8 max-sm:pt-0 ${isOpen ? '' : 'hidden'}`}
+        >
+          <DrawerContent
+            handleTouchStart={handleTouchStart}
+            handleTouchEnd={handleTouchEnd}
+            product={product}
+            setIsOpen={setIsOpen}
+            selectedPart={selectedPart}
+            handlePartSelect={handlePartSelect}
+            partColors={partColors}
+          />
         </div>
+        <BottomMenu
+          handleTouchStart={handleTouchStart}
+          handleTouchEnd={handleTouchEnd}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+          product={product}
+          selectedPart={selectedPart}
+          partColors={partColors}
+          handleColorChange={handleColorChange}
+          handlePartSelect={handlePartSelect}
+        />
       </div>
     </div>
   );

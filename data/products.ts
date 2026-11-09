@@ -1,4 +1,16 @@
-import { ProductType } from '../lib/definition';
+import { ProductType, SHOE_CONFIG_TYPE } from '../lib/definition';
+
+export const LEFT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
+  position: [-0.4, 0.1, 0],
+  rotation: [-Math.PI / 8, -Math.PI / 2, 0],
+  scale: [-1, 1, 1],
+};
+
+export const RIGHT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
+  position: [0.6, 0.1, 0],
+  rotation: [-Math.PI / 8, Math.PI / 2, 0],
+  scale: [1, 1, 1],
+};
 
 export const PRODUCT_DATA: ProductType[] = [
   {
@@ -32,14 +44,14 @@ export const PRODUCT_DATA: ProductType[] = [
       { id: 'patch', name: 'パッチ', defaultColor: '#e9c46a' },
     ],
     cameraViews: {
-      laces: [0, 0.8, -2.2, 0, 0.25, 0],
-      sole: [-4, 1, -4, 0, 0, 0],
-      caps: [0, 0.1, -2.4, 0, 0, 0],
-      inner: [-2, 3, 3, 0, 0.25, 0],
-      mesh: [-3, 0, -4, 0, 0, 0],
-      band: [0, 0.1, -2.4, 0, 0, 0],
+      laces: [0, 0.8, -2.2, 0.1, 0, 0],
+      sole: [-4, 1, -2, 0, 0, 0],
+      caps: [0, 0.1, -2.4, 0.1, 0, 0],
+      inner: [-2, 3, 3, 0.2, 0, 0],
+      mesh: [-3, 0, -2, 0, 0, 0],
+      band: [0, 0.1, -3, 0.1, 0, 0],
       stripes: [-5, 0, 0, 0, 0, 0],
-      patch: [0, 1, 3, 0, 0.25, 0],
+      patch: [0, 1, 3, 0.1, 0.25, 0],
     },
   },
 ];

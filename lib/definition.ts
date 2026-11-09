@@ -1,3 +1,40 @@
+import { CameraControls } from '@react-three/drei';
+
+export interface BottomMenuProps {
+  handleTouchStart: (e: React.TouchEvent) => void;
+  handleTouchEnd: (e: React.TouchEvent) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  isExpanded: boolean;
+  setIsExpanded: (isExpanded: boolean) => void;
+  product: ProductType;
+  selectedPart: string | null;
+  partColors: Record<string, string>;
+  handleColorChange: (hexColor: string) => void;
+  handlePartSelect: (partName: string) => void;
+}
+
+export interface ProductCanvasProps {
+  productCamera: {
+    position: [number, number, number];
+    fov: number;
+  };
+  handlePartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
+  flashingPart?: string | null;
+  cameraControlsRef: React.RefObject<CameraControls | null>;
+}
+
+export interface MenuProps {
+  handleTouchStart: (e: React.TouchEvent) => void;
+  handleTouchEnd: (e: React.TouchEvent) => void;
+  product: ProductType;
+  setIsOpen: (isOpen: boolean) => void;
+  selectedPart: string | null;
+  handlePartSelect: (partName: string) => void;
+  partColors: Record<string, string>;
+}
+
 export interface ProductType {
   id: number;
   modelPath: string;
@@ -29,4 +66,10 @@ export interface ShoeProps {
   onPartSelect: (partName: string) => void;
   partColors: Record<string, string>;
   flashingPart?: string | null;
+}
+
+export interface SHOE_CONFIG_TYPE {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  scale: [number, number, number];
 }
