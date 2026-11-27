@@ -6,7 +6,7 @@ export const DrawerContent = ({
   handleTouchStart,
   handleTouchEnd,
   product,
-  setIsOpen,
+  setMenuSize,
   selectedPart,
   handlePartSelect,
   partColors,
@@ -24,7 +24,7 @@ export const DrawerContent = ({
         </div>
         <button
           className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setMenuSize('mid')}
         >
           <RiCloseLargeLine className="h-5 w-5" />
         </button>
@@ -39,7 +39,7 @@ export const DrawerContent = ({
                 key={part.id}
                 onClick={() => {
                   handlePartSelect(part.id);
-                  setIsOpen(false);
+                  setMenuSize('mid');
                 }}
               >
                 <span

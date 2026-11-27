@@ -6,10 +6,8 @@ import { BottomMenuProps } from '@/lib/definition';
 export const BottomMenu = ({
   handleTouchStart,
   handleTouchEnd,
-  isOpen,
-  setIsOpen,
-  isExpanded,
-  setIsExpanded,
+  menuSize,
+  setMenuSize,
   product,
   selectedPart,
   partColors,
@@ -31,7 +29,7 @@ export const BottomMenu = ({
     handlePartSelect(product.parts[nextIndex].id);
   };
   return (
-    <div className={`${isOpen ? 'hidden' : ''}`}>
+    <div className={`${menuSize === 'big' ? 'hidden' : ''}`}>
       <div
         className="grid grid-cols-3 px-12 py-6 max-sm:py-0"
         onTouchStart={handleTouchStart}
@@ -40,9 +38,9 @@ export const BottomMenu = ({
         <div className="justify-self-start">
           <button
             className="flex h-9.5 w-9.5 items-center justify-center rounded-full border border-gray-200 max-sm:hidden"
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={() => setMenuSize(menuSize === 'small' ? 'mid' : 'small')}
           >
-            {isExpanded ? (
+            {menuSize === 'small' ? (
               <SlArrowUp className="h-4 w-4" />
             ) : (
               <SlArrowDown className="h-4 w-4" />
@@ -66,7 +64,7 @@ export const BottomMenu = ({
         <div className="justify-self-end">
           <button
             className="flex items-center gap-2 rounded-full border border-gray-200 px-4 py-1.5 font-bold max-sm:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setMenuSize('big')}
           >
             <SlMenu className="h-5 w-5" />
             メニュー
@@ -74,7 +72,7 @@ export const BottomMenu = ({
         </div>
       </div>
       <div
-        className={`scrollbar-none justify-center gap-4 overflow-x-auto p-6 max-sm:pt-15 ${isExpanded ? `hidden` : `flex`}`}
+        className={`scrollbar-none justify-center gap-4 overflow-x-auto p-6 max-sm:pt-15 ${menuSize === 'small' ? `hidden` : `flex`}`}
       >
         {product.colorPalette.map((color) => {
           const isSelected = selectedPart
