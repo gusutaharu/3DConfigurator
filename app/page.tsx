@@ -5,10 +5,12 @@ import { useRef, useState } from 'react';
 import { RiShare2Line } from 'react-icons/ri';
 
 import { PRODUCT_DATA } from '@/data/products';
+import { MenuSizeType } from '@/lib/definition';
 
 import { BottomMenu } from './components/bottomMenu';
 import { DrawerContent } from './components/drawerContent';
 import { ProductCanvas } from './components/productCanvas';
+
 const product = PRODUCT_DATA[0];
 
 const initialPartColors = product.parts.reduce<Record<string, string>>(
@@ -23,8 +25,7 @@ export default function Home() {
   const [flashingPart, setFlashingPart] = useState<string | null>(null);
   const [partColors, setPartColors] =
     useState<Record<string, string>>(initialPartColors);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [menuSize, setMenuSize] = useState<MenuSizeType>('mid');
 
   const [selectedPart, setSelectedPart] = useState<string | null>('mesh');
   const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,18 +40,18 @@ export default function Home() {
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
     if (Math.abs(diff) < 50) return;
-
     if (diff > 0) {
-      if (!isOpen) {
-        setIsOpen(true);
-        if (isExpanded) {
-          setIsExpanded(false);
-          setIsOpen(false);
-        }
+      if (menuSize === 'mid') {
+        setMenuSize('big');
+      } else if (menuSize === 'small') {
+        setMenuSize('mid');
       }
     } else {
-      if (isOpen) setIsOpen(false);
-      if (!isOpen && !isExpanded) setIsExpanded(true);
+      if (menuSize === 'big') {
+        setMenuSize('mid');
+      } else if (menuSize === 'mid') {
+        setMenuSize('small');
+      }
     }
   };
 
@@ -111,7 +112,7 @@ export default function Home() {
   return (
     <div className="h-dvh w-screen overflow-hidden overflow-x-hidden bg-gray-100">
       <div
-        className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${isExpanded ? 'h-[90vh]' : 'h-[73vh]'}`}
+        className={`relative min-h-0 w-full flex-1 bg-gray-100 transition-all ${menuSize === 'small' ? 'h-[90vh]' : 'h-[73vh]'}`}
       >
         <div className="absolute top-0 right-0 left-0 z-10 flex px-6 py-11">
           <div className="mr-auto ml-7.5 flex flex-col max-sm:hidden">
@@ -136,17 +137,16 @@ export default function Home() {
         />
       </div>
       <div
-        className={`fixed inset-0 z-20 bg-black/20 backdrop-blur-xs transition-all duration-300 ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`fixed inset-0 z-20 bg-black/20 backdrop-blur-xs transition-all duration-300 ${menuSize === 'big' ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
         onClick={() => {
-          setIsOpen(false);
-          setIsExpanded(false);
+          setMenuSize('mid');
         }}
       />
       <div
         className={`fixed bottom-0 z-30 w-full bg-white transition-all duration-300 max-sm:rounded-t-2xl ${
-          isOpen
+          menuSize === 'big'
             ? 'h-[65vh] max-sm:h-[80vh]'
-            : isExpanded
+            : menuSize === 'small'
               ? 'h-[10vh]'
               : 'h-[27vh]'
         }`}
@@ -154,20 +154,20 @@ export default function Home() {
         <div
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          onClick={() => setIsOpen(!isOpen)}
-          className={`flex w-full cursor-grab touch-none justify-center pt-2 active:cursor-grabbing sm:hidden ${isOpen ? 'pb-10' : 'pb-5'}`}
+          onClick={() => setMenuSize(menuSize === 'big' ? 'mid' : 'big')}
+          className={`flex w-full cursor-grab touch-none justify-center pt-2 active:cursor-grabbing sm:hidden ${menuSize === 'big' ? 'pb-10' : 'pb-5'}`}
         >
           <div className="h-1 w-8 rounded-full bg-gray-300" />
         </div>
         <div
-          className={`z-30 overscroll-contain py-10 pr-10 pl-40 max-md:px-8 max-sm:pt-0 ${isOpen ? '' : 'hidden'}`}
+          className={`z-30 overscroll-contain py-10 pr-10 pl-40 max-md:px-8 max-sm:pt-0 ${menuSize === 'big' ? '' : 'hidden'}`}
         >
           <DrawerContent
             handleTouchStart={handleTouchStart}
             handleTouchEnd={handleTouchEnd}
             product={product}
-            setIsOpen={setIsOpen}
             selectedPart={selectedPart}
+            setMenuSize={setMenuSize}
             handlePartSelect={handlePartSelect}
             partColors={partColors}
           />
@@ -175,10 +175,8 @@ export default function Home() {
         <BottomMenu
           handleTouchStart={handleTouchStart}
           handleTouchEnd={handleTouchEnd}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          isExpanded={isExpanded}
-          setIsExpanded={setIsExpanded}
+          menuSize={menuSize}
+          setMenuSize={setMenuSize}
           product={product}
           selectedPart={selectedPart}
           partColors={partColors}

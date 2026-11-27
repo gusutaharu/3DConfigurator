@@ -1,12 +1,12 @@
 import { CameraControls } from '@react-three/drei';
 
+export type MenuSizeType = 'small' | 'mid' | 'big';
+
 export interface BottomMenuProps {
   handleTouchStart: (e: React.TouchEvent) => void;
   handleTouchEnd: (e: React.TouchEvent) => void;
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  isExpanded: boolean;
-  setIsExpanded: (isExpanded: boolean) => void;
+  menuSize: MenuSizeType;
+  setMenuSize: (menuSize: MenuSizeType) => void;
   product: ProductType;
   selectedPart: string | null;
   partColors: Record<string, string>;
@@ -29,7 +29,7 @@ export interface MenuProps {
   handleTouchStart: (e: React.TouchEvent) => void;
   handleTouchEnd: (e: React.TouchEvent) => void;
   product: ProductType;
-  setIsOpen: (isOpen: boolean) => void;
+  setMenuSize: (menuSize: MenuSizeType) => void;
   selectedPart: string | null;
   handlePartSelect: (partName: string) => void;
   partColors: Record<string, string>;
