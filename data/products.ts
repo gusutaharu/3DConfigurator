@@ -1,4 +1,16 @@
-import { ProductType } from '../lib/definition';
+import { ProductType, SHOE_CONFIG_TYPE } from '../lib/definition';
+
+export const LEFT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
+  position: [-0.4, 0.1, 0],
+  rotation: [-Math.PI / 8, -Math.PI / 2, 0],
+  scale: [-1, 1, 1],
+};
+
+export const RIGHT_SHOE_CONFIG: SHOE_CONFIG_TYPE = {
+  position: [0.6, 0.1, 0],
+  rotation: [-Math.PI / 8, Math.PI / 2, 0],
+  scale: [1, 1, 1],
+};
 
 export const PRODUCT_DATA: ProductType[] = [
   {
@@ -21,5 +33,25 @@ export const PRODUCT_DATA: ProductType[] = [
       { id: 'purple', hex: '#9d4edd', name: 'パープル' },
       { id: 'pink', hex: '#f72585', name: 'ピンク' },
     ],
+    parts: [
+      { id: 'mesh', name: 'メッシュ (全体)', defaultColor: '#1d3557' },
+      { id: 'laces', name: '靴ひも', defaultColor: '#e9c46a' },
+      { id: 'sole', name: 'ソール', defaultColor: '#e9c46a' },
+      { id: 'caps', name: 'アイレット', defaultColor: '#1a1a1a' },
+      { id: 'inner', name: '裏地', defaultColor: '#1d3557' },
+      { id: 'band', name: 'バンド', defaultColor: '#2a9d8f' },
+      { id: 'stripes', name: 'ストライプ', defaultColor: '#e9c46a' },
+      { id: 'patch', name: 'パッチ', defaultColor: '#e9c46a' },
+    ],
+    cameraViews: {
+      laces: [0, 0.8, -2.2, 0.1, 0, 0],
+      sole: [-4, 1, -2, 0, 0, 0],
+      caps: [0, 0.1, -2.4, 0.1, 0, 0],
+      inner: [-2, 3, 3, 0.2, 0, 0],
+      mesh: [-3, 0, -2, 0, 0, 0],
+      band: [0, 0.1, -3, 0.1, 0, 0],
+      stripes: [-5, 0, 0, 0, 0, 0],
+      patch: [0, 1, 3, 0.1, 0.25, 0],
+    },
   },
 ];
