@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 3Dコンフィギュレーター
 
-## Getting Started
+アパレルECサイトで使われている靴をカスタマイズオーダーするための3Dコンフィギュレーターです。
 
-First, run the development server:
+**デモ**: https://3-d-configurator-silk.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 作った理由
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+WebGL表現の基礎学習を終えて、学習成果として作成しました。
 
-## Learn More
+## 機能
 
-To learn more about Next.js, take a look at the following resources:
+- 
+- 
+- 
+- 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 使用技術
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| 分類 | 技術 |
+| --- | --- |
+| フロントエンド | React 19 / TypeScript / Next.js |
+| バックエンド |  Node.js 22 |
+| インフラ | vercel |
 
-## Deploy on Vercel
+## 工夫した点
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.
+2. 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. 
+## 今後やりたいこと
+
+- [ ] 
+- [ ] 
+
+## ローカルでの起動
+
+
+## 作者
+
+- GitHub: https://github.com/gusutaharu
